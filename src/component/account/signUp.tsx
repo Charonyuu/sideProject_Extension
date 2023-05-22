@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import Logo from "@/assets/Logo.png";
-import { SignInAPI, SignUpAPI } from "../../api/account";
-import { Link } from "react-router-dom";
+import { SignUpAPI } from "@/api/account";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [account, setAccount] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
   async function _signUp() {
     if (!account || !password) return alert("請輸入所有資料");
-    await SignUpAPI(name, account, password);
+    await SignUpAPI(name, account, password).then(() => {
+      alert("註冊成功")
+      navigate("/signIn");
+    });
   }
   return (
     <div className="p-5 h-screen flex flex-col justify-center">
@@ -48,7 +52,7 @@ const SignUp: React.FC = () => {
         </button>
         <h6 className="text-sm py-0.5">
           已有帳號，前往
-          <Link to="/" className="underline text-blue-400">
+          <Link to="/signIn" className="underline text-blue-400">
             登入
           </Link>
         </h6>

@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import Logo from "@/assets/Logo.png";
-import { Link } from "react-router-dom";
-import { SignInAPI } from "../../api/account";
+import { Link, useNavigate } from "react-router-dom";
+import { SignInAPI } from "@/api/account";
 
 const SignIn: React.FC = () => {
   const [account, setAccount] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
   async function _signIn() {
     if (!account || !password) return alert("請輸入所有資料");
-    await SignInAPI(account, password);
+    await SignInAPI(account, password)
+      .then(() => {
+        return navigate("/message");
+      })
+      .catch((err) => console.log("err" + err));
   }
   return (
     <div className="p-5 h-screen flex flex-col justify-center">

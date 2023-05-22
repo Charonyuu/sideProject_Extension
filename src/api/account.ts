@@ -1,16 +1,18 @@
 import axios from "axios";
-const url = "http://127.0.0.1:8000/";
+import Cookies from "js-cookie";
+const url = "http://127.0.0.1:8000";
 
 export async function SignInAPI(account: string, password: string) {
   try {
     await axios
-      .post(`${url}signIn`, {
+      .post(`${url}/signIn`, {
         account,
         password,
       })
       .then((result) => {
         console.log("登入成功");
-        console.log(result);
+        console.log(result.data);
+        Cookies.set("extensionTokenId", result.data.tokenId, { expires: 1 });
       })
       .catch((err) => console.log("err" + err));
   } catch (error) {
@@ -19,10 +21,14 @@ export async function SignInAPI(account: string, password: string) {
   }
 }
 
-export async function SignUpAPI(name:string,account: string, password: string) {
+export async function SignUpAPI(
+  name: string,
+  account: string,
+  password: string
+) {
   try {
     await axios
-      .post(`${url}signUp`, {
+      .post(`${url}/signUp`, {
         name,
         account,
         password,
