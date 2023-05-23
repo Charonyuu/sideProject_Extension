@@ -5,7 +5,7 @@ import { useRoutes, Outlet } from "react-router-dom";
 import Navbar from "./component/navbar";
 //page
 import { SignIn, SignUp } from "./page/account"; // account
-import { Profile, Applyfriends } from "./page/profile";
+import { Profile, Applyfriends, Friends } from "./page/profile";
 import { List, Addfriend } from "./page/chat";
 
 const App: React.FC = () => {
@@ -19,7 +19,10 @@ const App: React.FC = () => {
     { path: "message", element: <List /> },
   ];
   const chatRoutes = [{ path: "addfriend", element: <Addfriend /> }];
-  const profileRoutes = [{ path: "applyfriends", element: <Applyfriends /> }];
+  const profileRoutes = [
+    { path: "applyfriends", element: <Applyfriends /> },
+    { path: "friends", element: <Friends /> },
+  ];
 
   const Routes = useRoutes([
     ...accountRoutes,

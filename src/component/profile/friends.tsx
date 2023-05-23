@@ -1,29 +1,29 @@
 import {
-  getApplyFriendsAPI,
+  getFriendsAPI,
   acceptApplyFriendsAPI,
   rejectApplyFriendAPI,
 } from "@/api/profile";
 import React, { useEffect, useState } from "react";
-import { AiOutlineLeft, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineLeft, AiOutlineUserDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { API } from "@/constant";
 
-interface Friends {
+interface FriendInterface {
   id: string;
   name: string;
   photo: string;
 }
 
-const Applyfriends: React.FC = () => {
-  const [applyFriendList, setApplyFriendList] = useState([]);
+const Friends: React.FC = () => {
+  const [friendsList, setFriendsList] = useState([]);
   const [update, setUpdate] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     if (!update) return;
-    getApplyFriendsAPI().then((data) => {
+    getFriendsAPI().then((data) => {
       console.log(data);
       setUpdate(false);
-      setApplyFriendList(data);
+      setFriendsList(data);
     });
   }, [update]);
   return (
@@ -34,10 +34,10 @@ const Applyfriends: React.FC = () => {
           fontSize="20px"
           onClick={() => navigate(-1)}
         />
-        <p>好友申請列表</p>
+        <p>好友列表</p>
       </div>
       <div className="p-3">
-        {applyFriendList.map((data: Friends) => {
+        {friendsList.map((data: FriendInterface) => {
           const { id, name, photo } = data;
           return (
             <div
@@ -52,18 +52,11 @@ const Applyfriends: React.FC = () => {
                 <p className="ml-1">{name}</p>
               </div>
               <div className="flex ">
-                <AiOutlineClose
+                <AiOutlineUserDelete
                   className="text-red-400"
                   fontSize="20px"
                   onClick={() => {
                     rejectApplyFriendAPI(id), setUpdate(true);
-                  }}
-                />
-                <AiOutlineCheck
-                  className="ml-2 text-green-400"
-                  fontSize="20px"
-                  onClick={() => {
-                    acceptApplyFriendsAPI(id, name, photo), setUpdate(true);
                   }}
                 />
               </div>
@@ -75,4 +68,4 @@ const Applyfriends: React.FC = () => {
   );
 };
 
-export default Applyfriends;
+export default Friends;

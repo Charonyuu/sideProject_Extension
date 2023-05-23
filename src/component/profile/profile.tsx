@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getProfileAPI } from "@/api/profile";
+import { getProfileAPI, Logout } from "@/api/profile";
+import Cookies from "js-cookie";
 import { API } from "@/constant";
 import {
   AiOutlineUser,
@@ -38,10 +39,10 @@ const Profile: React.FC = () => {
       <p className="m-2 text-2xl">{profile?.name}</p>
       <p>{profile?.id}</p>
       <div className="text-center text-xl">
-        <p className="flex items-center my-5">
+        <Link to="/friends" className="flex items-center my-5">
           <AiOutlineUser />
           好友名單
-        </p>
+        </Link>
         <Link to="/applyfriends" className="flex items-center my-5">
           <AiOutlineUsergroupAdd />
           好友申請
@@ -50,10 +51,10 @@ const Profile: React.FC = () => {
           <AiOutlineSetting />
           帳號設定
         </p>
-        <p className="flex items-center my-5">
+        <Link to="/signIn" className="flex items-center my-5" onClick={Logout}>
           <AiOutlineLogout />
           帳號登出
-        </p>
+        </Link>
       </div>
     </section>
   );
