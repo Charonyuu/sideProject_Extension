@@ -24,7 +24,7 @@ export function ifToday(timestamp: number) {
   const today = new Date().setHours(0, 0, 0, 0);
   const theDay = new Date(timestamp).setHours(0, 0, 0, 0);
   if (theDay == today) {
-    return dayjs(timestamp).format("hh/mm a	");
+    return dayjs(timestamp).format("hh:mm a	");
   } else {
     return dayjs(timestamp).format("MM/DD");
   }

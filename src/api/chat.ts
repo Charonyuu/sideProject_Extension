@@ -19,8 +19,49 @@ export async function getConversationsListAPI() {
     throw error;
   }
 }
+export async function getConversationContentAPI(conversationId: string) {
+  try {
+    const result = await axios({
+      method: "POST",
+      url: `${API}/getConversationContent`,
+      headers: {
+        Authorization: `Bearer ${tokenId}`, // Bearer 跟 token 中間有一個空格
+      },
+      data: {
+        conversationId,
+      },
+    });
+    console.log(result.data);
+    return result.data;
+  } catch (error) {
+    console.log("getConversationContentError:", error);
+    throw error;
+  }
+}
 
-
+//傳送訊息
+export async function sendMessageApi(
+  conversationId: string,
+  from: string,
+  to: string,
+  messageType: string,
+  message: string
+) {
+  try {
+    const result = await axios({
+      method: "POST",
+      url: `${API}/sendMessage`,
+      headers: {
+        Authorization: `Bearer ${tokenId}`, // Bearer 跟 token 中間有一個空格
+      },
+      data: { conversationId, from, to, messageType, message },
+    });
+    return result.data;
+  } catch (error) {
+    console.log("getUserAPIError:", error);
+    throw error;
+  }
+}
 // ----------------------------------請求申請好友-----------------------------------
 
 export async function getUserApi(userId: string) {

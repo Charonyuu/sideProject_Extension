@@ -3,34 +3,52 @@ import {
   BsPersonCircle,
   BsChatDots,
   BsFillGrid3X3GapFill,
-  BsBell,
 } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import classNames from "classnames";
+
 interface Props {
   children: React.ReactNode;
 }
 
 const Navbar: React.FC<Props> = ({ children }) => {
+  const location = useLocation();
   return (
-    <>
-      <div className="h-[calc(100vh_-_60px)] w-full bg-slate-200 ">
-        {children}
-      </div>
-      <div className="flex h-[60px] w-full justify-around items-center border-t-2">
+    <div className="bg-[#e2e2e282]">
+      <div className="h-[calc(100vh_-_80px)] w-full">{children}</div>
+      <div className="flex h-[80px] w-[100%] justify-around items-center border-t-2 rounded-t-[40px] bg-white">
         <Link to="/message">
-          <BsChatDots fontSize="24px" />
+          <BsChatDots
+            fontSize="30px"
+            className={
+              location.pathname === "/message"
+                ? "text-purple-600"
+                : "text-gray-400"
+            }
+          />
         </Link>
         <Link to="/menu">
-          <BsFillGrid3X3GapFill fontSize="24px" />
-        </Link>
-        <Link to="/notification">
-          <BsBell fontSize="24px" />
+          <BsFillGrid3X3GapFill
+            fontSize="30px"
+            className={
+              location.pathname === "/menu"
+                ? "text-purple-600"
+                : "text-gray-400"
+            }
+          />
         </Link>
         <Link to="profile">
-          <BsPersonCircle fontSize="24px" />
+          <BsPersonCircle
+            fontSize="30px"
+            className={
+              location.pathname === "/profile"
+                ? "text-purple-600"
+                : "text-gray-400"
+            }
+          />
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

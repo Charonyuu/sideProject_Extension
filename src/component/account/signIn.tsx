@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "@/assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { SignInAPI } from "@/api/account";
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/redux/messageSlice";
 
 const SignIn: React.FC = () => {
   const [account, setAccount] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  function _enterPassword(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      _signIn();
+    }
+  }
   async function _signIn() {
-    if (!account || !password) return alert("請輸入所有資料");
+    if (!account || !password) return alert("请输入所有数据");
     await SignInAPI(account, password)
-      .then(() => {
+      .then((accountId) => {
+        // 处理结果数据
+        dispatch(setLogin(accountId));
         return navigate("/message");
       })
-      .catch((err) => console.log("err" + err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
   return (
     <div className="p-5 h-screen flex flex-col justify-center">
       <div className="w-[300px] mx-auto ">
@@ -34,6 +47,7 @@ const SignIn: React.FC = () => {
           value={password}
           type="password"
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => _enterPassword(e)}
           className="w-full px-4 py-2 rounded-md border border-gray-400 focus:border-blue-500"
           placeholder="6-18位數密碼，請區分大小寫"
         />
