@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineSend } from "react-icons/ai";
 import { BiBellOff, BiBell, BiImageAlt } from "react-icons/bi";
@@ -59,14 +59,17 @@ const Header: React.FC = () => {
 };
 const ConversationContainer: React.FC = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const { user_id } = location.state;
+
   const { accountId, socket } = useSelector(
     (state: MessageState) => state.message
   );
 
-  const messages = useGetConversation(id);
+  const messages = useGetConversation(id, user_id);
   return (
     <div className="flex flex-1 flex-col-reverse overflow-auto">
-      {messages?.reverse().map((msg: MessageType) => {
+      {messages?.map((msg: MessageType) => {
         return (
           <>
             {msg.messageBy === "system" && (
@@ -75,7 +78,7 @@ const ConversationContainer: React.FC = () => {
               </div>
             )}
             {msg.messageBy === "time" && (
-              <div className="w-fit h-fit mx-auto my-2 rounded-xl">
+              <div className="w-fit h-fit mx-auto my-1 rounded-xl">
                 <p className="bg-black text-white text-[8px] px-2 py-0.5 rounded-lg">
                   {dayjs(msg.createdAt).format("MM/DD")}
                   {daysOfWeek[new Date(msg.createdAt).getDay()]}
@@ -84,18 +87,24 @@ const ConversationContainer: React.FC = () => {
             )}
             {msg.messageBy === accountId && (
               <div className="w-full h-fit flex px-2 py-1 text-sm justify-end items-end">
-                <p className="h-fit text-xs mr-1 text-gray-600">
-                  {dayjs(msg.createdAt).format("hh:mm a")}
-                </p>
+                <div className="h-fit text-[8px] text-right mr-1 text-gray-600">
+                  {msg.isRead && <span>已讀</span>}
+                  <p className="text-[12px]">
+                    {dayjs(msg.createdAt).format("hh:mm a")}
+                  </p>
+                </div>
                 <p className="bg-blue-300 px-2 py-1 rounded-[10px_10px_0_10px]">
                   {msg.message}
                 </p>
               </div>
             )}
-            {msg.messageBy === id && (
-              <div className="w-full h-fit flex px-2 py-1 text-sm rounded-xl">
-                <p className="bg-blue-300 px-2 py-1 rounded-lg">
+            {msg.messageBy === user_id && (
+              <div className="w-full h-fit flex items-end px-2 py-1 text-sm rounded-xl">
+                <p className="bg-blue-300 px-2 py-1 rounded-[10px_10px_10px_0]">
                   {msg.message}
+                </p>
+                <p className="h-fit text-xs mr-1 text-gray-600 ml-1">
+                  <p>{dayjs(msg.createdAt).format("hh:mm a")}</p>
                 </p>
               </div>
             )}
@@ -113,15 +122,13 @@ const InputContainer: React.FC = () => {
   const location = useLocation();
   const { user_id } = location.state;
   const [input, setInput] = useState("");
-  function keyDownSend(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter") {
-      sendMessage();
-      setInput("");
-    }
-  }
+  //   function keyDownSend(event: React.KeyboardEvent<HTMLInputElement>) {
+  //     if (event.key === "Enter") {
+  //       buttonRef.current?.click();
+  //     }
+  //   }
   async function sendMessage() {
-    if (!input || !id || !accountId) return;
-    console.log(socket.id);
+    if (!input) return;
     socket.emit("sendMessage", {
       conversationId: id,
       from: accountId,
@@ -129,7 +136,6 @@ const InputContainer: React.FC = () => {
       type: "text",
       message: input,
     });
-    setInput("");
   }
   return (
     <div className="w-full flex p-4 h-[80px] bg-white rounded-t-[30px] mt-2 px-2">
@@ -137,15 +143,14 @@ const InputContainer: React.FC = () => {
         <input
           placeholder="Type here..."
           className="w-full bg-transparent"
-          onKeyDown={keyDownSend}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
         <BiImageAlt fontSize="30px" className="text-gray-400 mr-1" />
         <AiOutlineSend
-          fontSize="25px"
-          onClick={sendMessage}
+          fontSize="23px"
           className="text-gray-400"
+          onClick={sendMessage}
         />
       </div>
     </div>

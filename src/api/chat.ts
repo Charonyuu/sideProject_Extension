@@ -19,7 +19,7 @@ export async function getConversationsListAPI() {
     throw error;
   }
 }
-export async function getConversationContentAPI(conversationId: string) {
+export async function getConversationContentAPI(conversationId: string, userId:string) {
   try {
     const result = await axios({
       method: "POST",
@@ -29,6 +29,7 @@ export async function getConversationContentAPI(conversationId: string) {
       },
       data: {
         conversationId,
+        userId,
       },
     });
     console.log(result.data);

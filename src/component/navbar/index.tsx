@@ -5,7 +5,6 @@ import {
   BsFillGrid3X3GapFill,
 } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
-import classNames from "classnames";
 
 interface Props {
   children: React.ReactNode;

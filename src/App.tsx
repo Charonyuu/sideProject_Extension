@@ -7,7 +7,7 @@ import Navbar from "./component/navbar";
 import { SignIn, SignUp } from "./page/account"; // account
 import { Profile, Applyfriends, Friends, Setting } from "./page/profile";
 import { List, Addfriend, Conversation } from "./page/chat";
-
+import { Menu, appRoutes } from "./page/menu";
 //socket
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
@@ -39,7 +39,7 @@ const App: React.FC = () => {
   ];
   const navRoutes = [
     { path: "profile", element: <Profile /> },
-    { path: "menu", element: <h2>aaaa</h2> },
+    { path: "menu", element: <Menu /> },
     { path: "message", element: <List /> },
   ];
   const chatRoutes = [
@@ -64,6 +64,7 @@ const App: React.FC = () => {
       ),
       children: [...navRoutes, ...profileRoutes],
     },
+    appRoutes
   ]);
 
   return <>{Routes}</>;

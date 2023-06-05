@@ -1,0 +1,40 @@
+name: 
+# 選擇名稱
+on: 
+  # workflow_dispatch 多一個按鈕在workflow 
+  pull_request: 
+    branches: 
+      -master
+    paths: 
+      - src/**
+  # issue / label / pull_request / push / schedule
+  # on: push on:[push, label]
+
+  # on:
+  #   push:
+  #     branches:
+  #       -main
+
+
+jobs:
+  # [job name]:
+  #   run-on: [runner]
+  #   needs: [build-job] 希望先做完那個jobs 再做這個 不然平常是平行進行
+  #   steps: 
+  #     -name:[step name]  Checkout project
+  #     uses: [action path] ex: actions/checkout@v3 uses就代表是別人寫好的
+
+  #     -name:[step name]  Checkout project
+  #     uses: [action path]
+  #     with: 
+  #       [input key]: [input value] ex: node-version: 18
+  #     env: 
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB}}
+
+      
+  #     -name:[step name]  Checkout project
+  #     run: [bash] ex: npm ci
+  
+  #   有一些其他的東西 類似 mutiple lines command 或 context 使用 var 或 secret key  
+  #   artifact類似build完的靜態檔
+#  if: ${{ github.event_name == "push"}}  

@@ -20,6 +20,8 @@
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
+    "react-virtualized-auto-sizer": "^1.0.19",
+    "react-window": "^1.8.9",
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "@types/node": "^20.2.1",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.0.11",
+    "@types/react-window": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react": "^4.0.0",

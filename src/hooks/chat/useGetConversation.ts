@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getConversationContentAPI } from "@/api/chat";
 import { useSelector } from "react-redux";
 
-const useGetConversation = (id: string | undefined) => {
+const useGetConversation = (id: string | undefined, userId: string) => {
   const [messages, setMessages] = useState([]);
   const socket = useSelector((state: any) => state.message.socket);
 
   const handleReceiveMessage = (data: any) => {
-    const temp: any = [...messages, data];
-    setMessages(temp);
-    console.log("Received message:", data);
+    setMessages((prev): any => {
+      return [data, ...prev];
+    });
   };
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const useGetConversation = (id: string | undefined) => {
 
   useEffect(() => {
     if (!id) return;
-    getConversationContentAPI(id).then((msg) => {
+    getConversationContentAPI(id, userId).then((msg) => {
       setMessages(msg);
     });
   }, [id]);
